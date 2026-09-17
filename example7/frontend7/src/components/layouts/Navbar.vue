@@ -36,7 +36,20 @@
               }})</router-link
             >
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item" v-if="!authStore.isLoggedIn">
+            <router-link
+              class="nav-link active"
+              aria-current="page"
+              to="/register"
+              ><i class="bi bi-person-plus"></i> Register</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="!authStore.isLoggedIn">
+            <router-link class="nav-link active" aria-current="page" to="/login"
+              ><i class="bi bi-person"></i> Login</router-link
+            >
+          </li>
+          <li class="nav-item dropdown" v-else>
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -44,13 +57,24 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Dropdown
+              <i class="bi bi-person"></i> {{ authStore.user?.name }}
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <router-link class="dropdown-item" to="/profile"
+                  >Profile</router-link
+                >
+              </li>
+              <li><a class="dropdown-item" href="#">Orders</a></li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  @click="logoutUser()"
+                  style="cursor: pointer"
+                  >Logout</a
+                >
+              </li>
             </ul>
           </li>
         </ul>
@@ -75,9 +99,13 @@
   </nav>
 </template>
 <script setup>
+import { BASE_URL, headersConfig } from "@/helpers/config";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useProductStore } from "@/stores/useProductStore";
-import { reactive } from "vue";
+import axios from "axios";
+import { onMounted, reactive } from "vue";
+import { useRouter } from "vue-router";
 
 const productStore = useProductStore();
 
@@ -86,6 +114,42 @@ const data = reactive({
 });
 
 const cartStore = useCartStore();
+
+const authStore = useAuthStore();
+
+const router = useRouter();
+
+const logoutUser = async () => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/user/logout`,
+      null,
+      headersConfig(authStore.access_token)
+    );
+    authStore.clearAuthData();
+    authStore.isLoggedIn = false;
+    router.push("/login");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const fetchCurrentUser = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/user`,
+      headersConfig(authStore.access_token)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  if (authStore.isLoggedIn) {
+    fetchCurrentUser();
+  }
+});
 </script>
 <style scoped>
 </style>

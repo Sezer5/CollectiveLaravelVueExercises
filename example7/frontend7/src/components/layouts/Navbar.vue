@@ -30,7 +30,7 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active" aria-current="page" to="/"
+            <router-link class="nav-link active" aria-current="page" to="/cart"
               ><i class="bi bi-cart-fill"></i> Cart ({{
                 cartStore.cartItems.length
               }})</router-link

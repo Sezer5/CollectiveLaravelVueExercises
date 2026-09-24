@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.20.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "pinia": "^4.0.3",
+    "pinia-plugin-persistedstate": "^4.7.1",
     "vue": "^3.5.42",
-    "vue-router": "^5.3.1"
+    "vue-router": "^5.3.1",
+    "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",

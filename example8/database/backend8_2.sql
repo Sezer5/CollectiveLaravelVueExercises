@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 24 Eyl 2026, 14:25:59
+-- Üretim Zamanı: 24 Eyl 2026, 19:54:05
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.3.30
 
@@ -151,6 +151,13 @@ CREATE TABLE `personal_access_tokens` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Tablo döküm verisi `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(2, 'App\\Models\\User', 1, 'new_user', '55dd84a915c291d9aa89fce5a7f12a2148f84292bbced3e67653117821921156', '[\"*\"]', '2026-09-24 16:50:50', NULL, '2026-09-24 16:50:50', '2026-09-24 16:50:50');
+
 -- --------------------------------------------------------
 
 --
@@ -169,7 +176,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', NULL, NULL);
+(1, 'admin', NULL, NULL),
+(2, 'user', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -213,7 +221,8 @@ CREATE TABLE `sessions` (
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('0tn2TSDXtMPsAXm8GgTaCK0Q1naSNlfncG7FLJWG', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.139.0 Chrome/150.0.7871.250 Electron/43.6.0 Safari/537.36', 'eyJfdG9rZW4iOiJaZFNDRGNaRG5KbDVSNE5mczgwenViWXV0VUhIdVhMYmhjMmFBVU1TIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwIiwicm91dGUiOm51bGx9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1790259653),
-('m75zkNE3S8SzMzAF4Zgi3eRupJnV7djvi4laCpBa', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJrYkJtZkt0R0RqWmltUXV3ZG44bG8zTU9MczRjcnJvY2ZhTlRSR3djIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwIiwicm91dGUiOm51bGx9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1790259659);
+('m75zkNE3S8SzMzAF4Zgi3eRupJnV7djvi4laCpBa', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJrYkJtZkt0R0RqWmltUXV3ZG44bG8zTU9MczRjcnJvY2ZhTlRSR3djIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwIiwicm91dGUiOm51bGx9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1790259659),
+('x84zHfqEXzUUWJ9y0SKiDVAFZZLaU02M6jMbklw4', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJ6RG5mYjQ0dm9vRmJzdEJ4UExWV3FYUGdMNFpqRzdwZUpmQnliWGJyIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwIiwicm91dGUiOm51bGx9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19', 1790271823);
 
 -- --------------------------------------------------------
 
@@ -359,13 +368,13 @@ ALTER TABLE `migrations`
 -- Tablo için AUTO_INCREMENT değeri `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `role_user`

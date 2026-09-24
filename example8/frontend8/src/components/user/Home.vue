@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <div><i class="bi bi-house-fill"></i> User Home</div>
 </template>
 
 <script setup>

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <div>Admin Home</div>
 </template>
 
 <script setup>

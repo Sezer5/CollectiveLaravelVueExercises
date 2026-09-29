@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 29 Eyl 2026, 14:24:58
+-- Üretim Zamanı: 29 Eyl 2026, 14:30:53
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.3.30
 
@@ -202,7 +202,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2026_09_29_111122_create_sizes_table', 3),
 (8, '2026_09_29_111131_create_products_table', 3),
 (9, '2026_09_29_111610_create_color_product_table', 4),
-(10, '2026_09_29_111638_create_product_size_table', 4);
+(10, '2026_09_29_111638_create_product_size_table', 4),
+(11, '2026_09_29_142955_create_personal_access_tokens_table', 5);
 
 -- --------------------------------------------------------
 
@@ -565,7 +566,7 @@ ALTER TABLE `jobs`
 -- Tablo için AUTO_INCREMENT değeri `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `products`

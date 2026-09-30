@@ -3,6 +3,9 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const Home = () => import('@/components/Home.vue')
 const ProductDetail = () => import('@/components/product/ProductDetail.vue')
 const Cart = () => import('@/components/cart/Cart.vue')
+const Login = () => import('@/components/Login.vue')
+const Register = () => import('@/components/Register.vue')
+const Profile = () => import('@/components/profile/Profile.vue')
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -21,6 +24,21 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       component: Cart,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
     },
     
   ],

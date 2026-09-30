@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 29 Eyl 2026, 14:30:53
+-- Üretim Zamanı: 30 Eyl 2026, 14:52:02
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.3.30
 
@@ -220,6 +220,32 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Tablo için tablo yapısı `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` text NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\User', 2, 'new_user', '23914f3dfd785a6e1fbef1678b2089a217dafd9d5d76c96d8488d1458ab9f7e5', '[\"*\"]', NULL, NULL, '2026-09-30 11:01:34', '2026-09-30 11:01:34');
+
+-- --------------------------------------------------------
+
+--
 -- Tablo için tablo yapısı `products`
 --
 
@@ -361,7 +387,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('6TG5r5qLPRmxpm2KkWkpIFjjhNgz9lUkFQiRYAW4', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJpQ3o3VE5TWmF4cFEzdndPTnBrYloxNHFyQ2hQdWsxQ1Z1M1Q5MTBSIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvcHJvZHVjdCIsInJvdXRlIjoiYWRtaW4ucHJvZHVjdC5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxLCJwYXNzd29yZF9oYXNoX3dlYiI6Ijk3OGM4MTRhYjVjMGQ4OWU1MTJjZDgwZWIxMGEwZDRkYzJiMDZjNzY2MWE0NTM2MzdkYjkwZTY5Mzc0YzJiYzQifQ==', 1790691822);
+('6TG5r5qLPRmxpm2KkWkpIFjjhNgz9lUkFQiRYAW4', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJpQ3o3VE5TWmF4cFEzdndPTnBrYloxNHFyQ2hQdWsxQ1Z1M1Q5MTBSIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvcHJvZHVjdCIsInJvdXRlIjoiYWRtaW4ucHJvZHVjdC5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxLCJwYXNzd29yZF9oYXNoX3dlYiI6Ijk3OGM4MTRhYjVjMGQ4OWU1MTJjZDgwZWIxMGEwZDRkYzJiMDZjNzY2MWE0NTM2MzdkYjkwZTY5Mzc0YzJiYzQifQ==', 1790691822),
+('fz1q7oReQHDwweaKsaT7jDIZBVBuyjMMlgkVmwFL', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJ0Q3lVdU9SWVJMZ2x2YTY0MVBCam1oRzZuWmZsMllnbEZPSGlBckdkIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvcHJvZHVjdCIsInJvdXRlIjoiYWRtaW4ucHJvZHVjdC5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxLCJwYXNzd29yZF9oYXNoX3dlYiI6Ijk3OGM4MTRhYjVjMGQ4OWU1MTJjZDgwZWIxMGEwZDRkYzJiMDZjNzY2MWE0NTM2MzdkYjkwZTY5Mzc0YzJiYzQifQ==', 1790745336);
 
 -- --------------------------------------------------------
 
@@ -418,7 +445,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `address`, `country`, `zip_code`, `profile_image`, `profile_completed`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Sezer Ünalmış', '7329 Pine Blvd', 'Turkey', '84259', NULL, '0', 'admin@email.com', NULL, '$2y$12$7pUsC3Ox8XHdey6jFLX2ieRreAboFAo9gT.WX2sH8V9RfMfF6Ub7m', NULL, NULL, '2026-09-29 08:04:12');
+(1, 'Sezer Ünalmış', '7329 Pine Blvd', 'Turkey', '84259', NULL, '0', 'admin@email.com', NULL, '$2y$12$7pUsC3Ox8XHdey6jFLX2ieRreAboFAo9gT.WX2sH8V9RfMfF6Ub7m', NULL, NULL, '2026-09-29 08:04:12'),
+(2, 'Sezer Ünalmış', NULL, NULL, NULL, NULL, '0', 'unalmissezer@gmail.com', NULL, '$2y$12$uy6ypsSrn/qDplHoM2xgs.Yueb9t25sedNK3YiUiGa0cCpJgSxNvG', NULL, '2026-09-30 10:57:10', '2026-09-30 10:57:10');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -484,6 +512,15 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
+
+--
+-- Tablo için indeksler `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
+  ADD KEY `personal_access_tokens_expires_at_index` (`expires_at`);
 
 --
 -- Tablo için indeksler `products`
@@ -569,6 +606,12 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- Tablo için AUTO_INCREMENT değeri `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Tablo için AUTO_INCREMENT değeri `products`
 --
 ALTER TABLE `products`
@@ -602,7 +645,7 @@ ALTER TABLE `sizes`
 -- Tablo için AUTO_INCREMENT değeri `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar

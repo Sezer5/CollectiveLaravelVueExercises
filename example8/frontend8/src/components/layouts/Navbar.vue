@@ -74,19 +74,52 @@
             Search
           </button>
         </form>
+        <div class="mx-1" v-if="!authStore.isLoggedIn">
+          <router-link
+            class="btn btn-outline-success mx-1"
+            type="submit"
+            :to="`/login`"
+          >
+            Login
+          </router-link>
+          <router-link
+            class="btn btn-outline-success mx-1"
+            type="submit"
+            :to="`/register`"
+          >
+            Register
+          </router-link>
+        </div>
+        <div class="mx-1">
+          <router-link
+            class="btn btn-outline-success mx-1"
+            type="submit"
+            :to="`/profile`"
+          >
+            <i class="bi bi-person-fill"></i> {{ authStore.user?.name }}
+          </router-link>
+          <router-link
+            class="btn btn-outline-danger mx-1"
+            type="submit"
+            :to="`/register`"
+          >
+            <i class="bi bi-power"></i>
+          </router-link>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script setup>
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useProductStore } from "@/stores/useProductStore";
 import { reactive } from "vue";
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
-
+const authStore = useAuthStore();
 const data = reactive({
   term: "",
 });

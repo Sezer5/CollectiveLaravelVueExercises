@@ -58,7 +58,7 @@ class UserController extends Controller
 
             $profile_image_path = $this->saveImage($request->file('profile_image'));
 
-            $user->update([
+            $request->user()->update([
                 'profile_image' => $profile_image_path
             ]);
 

@@ -90,7 +90,7 @@
             Register
           </router-link>
         </div>
-        <div class="mx-1">
+        <div class="mx-1" v-else>
           <router-link
             class="btn btn-outline-success mx-1"
             type="submit"
@@ -98,13 +98,13 @@
           >
             <i class="bi bi-person-fill"></i> {{ authStore.user?.name }}
           </router-link>
-          <router-link
+          <button
             class="btn btn-outline-danger mx-1"
             type="submit"
-            :to="`/register`"
+            @click="logoutUser()"
           >
             <i class="bi bi-power"></i>
-          </router-link>
+          </button>
         </div>
       </div>
     </div>
@@ -112,16 +112,58 @@
 </template>
 
 <script setup>
+import { BASE_URL, headersConfig } from "@/helpers/config";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useProductStore } from "@/stores/useProductStore";
-import { reactive } from "vue";
+import axios from "axios";
+import { onMounted, reactive } from "vue";
+import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
 const authStore = useAuthStore();
+const router = useRouter();
+const toast = useToast();
 const data = reactive({
   term: "",
+});
+
+const currentUser = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/user`,
+      headersConfig(authStore.access_token)
+    );
+  } catch (error) {
+    if (error.response.status === 401) {
+      authStore.clearAuthData();
+    }
+  }
+};
+
+const logoutUser = async () => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/user/logout`,
+      null,
+      headersConfig(authStore.access_token)
+    );
+    authStore.clearAuthData();
+    router.push("/login");
+    toast.success(response.data.message, {
+      timeout: 2000,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  if (authStore.isLoggedIn) {
+    currentUser();
+  }
 });
 </script>
 

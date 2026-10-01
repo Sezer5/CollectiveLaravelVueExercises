@@ -11,22 +11,89 @@
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
-        <div v-if="!authStore.user?.profile_image">
+        <div
+          v-if="!authStore.user?.profile_image"
+          class="d-flex justify-content-center"
+        >
           <img
             src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
             width="120px"
+            class="border border-3 rounded-circle"
           />
         </div>
-        <div v-else></div>
+        <div class="d-flex justify-content-center" v-else>
+          <img
+            :src="`${BASE_URL}/` + authStore.user?.profile_image"
+            width="120px"
+            class="border border-3 rounded-circle"
+          />
+        </div>
+      </li>
+      <li>
+        <div class="mt-3">
+          <form @submit.prevent="changeProfileImage()">
+            <div class="d-flex">
+              <input
+                type="file"
+                class="form-control"
+                @change="handleImageChange"
+                :key="data.imageKey"
+              /><button class="btn btn-dark">
+                <i class="bi bi-upload"></i>
+              </button>
+            </div>
+          </form>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
+import { BASE_URL, headersConfig } from "@/helpers/config";
 import { useAuthStore } from "@/stores/useAuthStore";
+import axios from "axios";
+import { reactive } from "vue";
+import { useToast } from "vue-toastification";
 
 const authStore = useAuthStore();
+
+const data = reactive({
+  imageFile: null,
+  imageKey: 0,
+});
+
+const handleImageChange = (event) => {
+  data.imageFile = event.target.files[0];
+};
+
+const clearInput = () => {
+  data.imageFile = null;
+  data.imageKey += 1;
+};
+
+const toast = useToast();
+
+const changeProfileImage = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("profile_image", data.imageFile);
+    formData.append("_method", "PUT");
+
+    const response = await axios.post(
+      `${BASE_URL}/api/user/update`,
+      formData,
+      headersConfig(authStore.access_token, "multipart/form-data")
+    );
+    authStore.user = response.data.user;
+    clearInput();
+    toast.success(response.data.message, {
+      timeout: 2000,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 
 <style scoped>

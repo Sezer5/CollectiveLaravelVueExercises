@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const Login = () => import('@/components/Login.vue')
 const Home = () => import('@/components/Home.vue')
 const Register = () => import('@/components/Register.vue')
+const Profile = () => import('@/components/Profile.vue')
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
     },
   ],
 })

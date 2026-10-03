@@ -14,6 +14,16 @@
     </a>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
+        <router-link to="/" class="dnone"
+          ><i class="bi bi-house-fill"></i> Home</router-link
+        >
+      </li>
+      <li class="mb-1">
+        <router-link to="/profile" class="dnone"
+          ><i class="bi bi-person-fill"></i> Profile</router-link
+        >
+      </li>
+      <li class="mb-1">
         <button
           class="btn btn-toggle align-items-center rounded collapsed"
           data-bs-toggle="collapse"
@@ -187,5 +197,10 @@ main {
 }
 .lh-tight {
   line-height: 1.25;
+}
+
+.dnone {
+  text-decoration: none;
+  color: black;
 }
 </style>

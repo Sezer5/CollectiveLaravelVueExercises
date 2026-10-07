@@ -52,6 +52,16 @@ class UserController extends Controller
 
             if ($request->user()->profile_image) {
                 $this->deleteImage($request->user()->profile_image);
+                $profile_image_path = $this->saveImage($request->file('profile_image'));
+
+                $request->user()->update([
+                    'profile_image' => $profile_image_path
+                ]);
+
+                return response()->json([
+                    'user' => UserResource::make($user->load('roles')),
+                    'message' => 'User profile image updated successfully'
+                ]);
             } else {
                 $profile_image_path = $this->saveImage($request->file('profile_image'));
 

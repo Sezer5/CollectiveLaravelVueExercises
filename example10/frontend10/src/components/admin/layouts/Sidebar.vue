@@ -31,6 +31,13 @@
         </div>
       </li>
       <li class="mb-1">
+        <router-link
+          to="/profile"
+          class="btn btn-toggle align-items-center rounded collapsed"
+          >Profile</router-link
+        >
+      </li>
+      <li class="mb-1">
         <button
           class="btn btn-toggle align-items-center rounded collapsed"
           data-bs-toggle="collapse"

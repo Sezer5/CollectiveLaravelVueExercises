@@ -50,9 +50,7 @@ const setCurrentUser = async () => {
 };
 
 onMounted(() => {
-  if (authStore.isLoggedIn) {
-    setCurrentUser();
-  }
+  setCurrentUser();
 });
 </script>
 

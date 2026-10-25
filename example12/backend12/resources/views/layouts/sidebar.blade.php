@@ -6,8 +6,22 @@
         <li class="nav-item"><a href="{{ route('admin.index') }}"
                 class="nav-link {{ Route::is('admin.index') ? 'active' : '' }}"><i class="bi bi-house me-2"></i> Home</a>
         </li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-cart-check me-2"></i> Siparişler</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-people me-2"></i> Kullanıcılar</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-gear me-2"></i> Ayarlar</a></li>
+        <li class="nav-item"><a href="{{ route('admin.category.index') }}"
+                class="nav-link {{ Route::is('admin.category.*') ? 'active' : '' }}"><i class="bi bi-tag me-2"></i>
+                Categories</a>
+        </li>
+        <li class="nav-item"><a href="{{ route('admin.color.index') }}"
+                class="nav-link {{ Route::is('admin.color.*') ? 'active' : '' }}"><i class="bi bi-palette me-2"></i>
+                Colors</a>
+        </li>
+        <li class="nav-item"><a href="{{ route('admin.size.index') }}"
+                class="nav-link {{ Route::is('admin.size.*') ? 'active' : '' }}"><i
+                    class="bi bi-arrows-angle-expand me-2"></i>
+                Sizes</a>
+        </li>
+        <li class="nav-item"><a href="{{ route('admin.product.index') }}"
+                class="nav-link {{ Route::is('admin.product.*') ? 'active' : '' }}"><i class="bi bi-gift me-2"></i>
+                Products</a>
+        </li>
     </ul>
 </nav>

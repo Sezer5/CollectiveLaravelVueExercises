@@ -57,7 +57,9 @@
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li>
-              <a class="dropdown-item" @click="logoutUser()">Logout</a>
+              <button class="dropdown-item" @click="logoutUser()">
+                Logout
+              </button>
             </li>
           </ul>
         </div>

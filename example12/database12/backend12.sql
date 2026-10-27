@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: localhost:3306
--- Üretim Zamanı: 25 Eki 2026, 19:34:45
--- Sunucu sürümü: 8.4.3
+-- Anamakine: 127.0.0.1
+-- Üretim Zamanı: 27 Eki 2026, 14:23:41
+-- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` bigint NOT NULL
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -47,9 +47,9 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` bigint NOT NULL
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -59,9 +59,9 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `categories` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -83,9 +83,9 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALU
 --
 
 CREATE TABLE `colors` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -109,9 +109,9 @@ INSERT INTO `colors` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `color_product` (
-  `id` bigint UNSIGNED NOT NULL,
-  `color_id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `color_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -121,9 +121,6 @@ CREATE TABLE `color_product` (
 --
 
 INSERT INTO `color_product` (`id`, `color_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(10, 1, 4, NULL, NULL),
-(11, 2, 4, NULL, NULL),
-(12, 3, 4, NULL, NULL),
 (13, 2, 5, NULL, NULL),
 (14, 3, 5, NULL, NULL),
 (15, 4, 5, NULL, NULL),
@@ -159,7 +156,10 @@ INSERT INTO `color_product` (`id`, `color_id`, `product_id`, `created_at`, `upda
 (45, 6, 15, NULL, NULL),
 (46, 1, 16, NULL, NULL),
 (47, 2, 16, NULL, NULL),
-(48, 3, 16, NULL, NULL);
+(48, 3, 16, NULL, NULL),
+(49, 1, 17, NULL, NULL),
+(50, 2, 17, NULL, NULL),
+(51, 3, 17, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -168,13 +168,13 @@ INSERT INTO `color_product` (`id`, `color_id`, `product_id`, `created_at`, `upda
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` varchar(255) NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -184,13 +184,13 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `attempts` smallint UNSIGNED NOT NULL,
-  `reserved_at` int UNSIGNED DEFAULT NULL,
-  `available_at` int UNSIGNED NOT NULL,
-  `created_at` int UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` smallint(5) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -200,16 +200,16 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `total_jobs` int NOT NULL,
-  `pending_jobs` int NOT NULL,
-  `failed_jobs` int NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci,
-  `cancelled_at` int DEFAULT NULL,
-  `created_at` int NOT NULL,
-  `finished_at` int DEFAULT NULL
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -219,9 +219,9 @@ CREATE TABLE `job_batches` (
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -249,8 +249,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -261,12 +261,12 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` text NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -280,14 +280,14 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `products` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` int NOT NULL,
-  `category_id` int NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `thumbnail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -297,19 +297,19 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `quantity`, `category_id`, `price`, `thumbnail`, `description`, `created_at`, `updated_at`) VALUES
-(4, 'Man 1', 'man-1', 12, 2, 12.33, 'storage/images/products/KaZDMyrmmKkCGl6hphVyC8EzYfMXrqYRsXamC4Aq.jpg', 'Sit semper elementum consectetur nisi tellus lorem sit tellus. Elit sit semper eiusmod sit porttitor consectetur elementum dolor. Elementum semper elit sed dolor semper. Tellus eiusmod aenean. Eiusmod leo vivamus. Elit lorem aenean semper ipsum elit. Tellus sit sed vendor consectetur vivamus. Aenean dolor semper vendor leo elementum. Tellus porttitor sit consectetur tellus eiusmod. Tellus dolor sit elit sit nisi. Vendor sit tellus vivamus sed. Tellus vendor tellus elit semper consectetur elit. Consectetur sed elementum vendor semper aenean. Leo consectetur sit. Nisi consectetur vivamus semper. Ipsum vendor aenean elit aenean vendor. Sed semper elit eiusmod nisi. Elementum ipsum tellus. Vendor.', '2026-10-25 16:24:28', '2026-10-25 16:24:28'),
-(5, 'Man 2', 'man-2', 13, 2, 13.32, 'storage/images/products/A4obt3v1QpLYVdz45PeLFqvF1loLe55PTrKlt9SO.jpg', 'Sit vivamus elementum leo aenean. Leo consectetur. Tellus sed aenean lorem sed. Dolor tellus semper ipsum eiusmod semper. Dolor nisi elit porttitor aenean eiusmod. Elementum porttitor tellus semper sed vendor vivamus leo. Porttitor ipsum vivamus elit. Ipsum leo tellus sit. Vivamus porttitor. Vendor tellus nisi sed elit consectetur. Elit aenean eiusmod vendor semper nisi porttitor sit. Nisi eiusmod vivamus ipsum sed nisi consectetur. Porttitor elementum porttitor. Consectetur nisi vivamus sed elit sit. Eiusmod porttitor dolor. Sed sit. Porttitor dolor consectetur. Porttitor. Vivamus lorem vendor lorem nisi aenean sed. Aenean sit. Elementum dolor sit vivamus porttitor. Consectetur. Lorem tellus elementum vivamus.', '2026-10-25 16:25:42', '2026-10-25 16:25:42'),
-(6, 'Man 3', 'man-3', 14, 2, 14.34, 'storage/images/products/4fxMLfIpR8MdMechTe9IEw63Fp4040Khz6JXP9uO.jpg', 'Elementum nisi elit consectetur eiusmod leo. Nisi elit tellus vivamus. Semper vendor. Tellus porttitor. Sit. Porttitor. Eiusmod nisi consectetur sit. Vendor vivamus elementum vivamus. Ipsum nisi aenean consectetur vivamus tellus. Porttitor tellus leo tellus ipsum. Porttitor. Aenean elit vendor vivamus sit consectetur dolor sed dolor. Vendor semper leo aenean. Sed tellus semper leo sit dolor elementum. Sit porttitor semper sit. Vivamus porttitor aenean lorem leo. Sit sed semper sit lorem. Elit dolor porttitor eiusmod nisi. Lorem eiusmod vendor sit aenean. Vivamus. Ipsum porttitor nisi tellus porttitor dolor elementum nisi ipsum. Aenean dolor aenean vendor eiusmod sed leo vendor porttitor. Sit.', '2026-10-25 16:26:13', '2026-10-25 16:26:13'),
-(7, 'Man 4', 'man-4', 15, 2, 15.43, 'storage/images/products/ku2T679t2RVQd2J4MSIhwj50cbHgTNhYmXxVVLqN.jpg', 'Semper aenean leo vivamus tellus semper consectetur. Elit nisi vivamus nisi elementum consectetur vendor. Tellus. Lorem. Ipsum eiusmod. Vendor aenean nisi. Sed aenean leo lorem. Sed vendor semper lorem consectetur. Tellus sit vendor tellus elementum sed. Consectetur sed vivamus eiusmod nisi leo. Sed porttitor sed. Tellus vendor leo. Sit. Semper vendor leo elit sit sed vendor. Vivamus porttitor vendor lorem. Leo elit semper sit. Semper aenean lorem dolor eiusmod lorem vendor nisi. Lorem eiusmod vivamus elit semper aenean nisi lorem. Tellus vendor elementum elit lorem. Aenean ipsum leo dolor elementum dolor. Porttitor consectetur sed elit nisi aenean sit consectetur. Leo.', '2026-10-25 16:26:41', '2026-10-25 16:26:41'),
-(8, 'Women 1', 'women-1', 12, 3, 13.30, 'storage/images/products/SvXMriZhgT8ECgrdpP0bX1C40A59JpgnoCIKkbZC.jpg', 'Leo porttitor elit eiusmod nisi eiusmod ipsum. Sit nisi semper tellus semper. Consectetur semper sit. Aenean ipsum sed leo ipsum. Semper elementum vivamus tellus. Sed porttitor consectetur. Vivamus. Porttitor sit leo sed lorem sed elementum sed. Sit eiusmod elementum aenean vendor semper lorem vendor tellus. Dolor lorem vendor lorem. Nisi. Eiusmod lorem consectetur vivamus nisi ipsum. Aenean ipsum elementum eiusmod dolor lorem consectetur. Semper dolor elementum semper ipsum tellus dolor. Eiusmod elit. Elementum ipsum vendor eiusmod ipsum sed eiusmod consectetur vendor. Semper vivamus sed porttitor ipsum elit vendor tellus elit. Ipsum lorem nisi aenean vendor lorem. Leo elementum. Vivamus sed.', '2026-10-25 16:27:15', '2026-10-25 16:27:15'),
-(9, 'Women 2', 'women-2', 17, 3, 16.54, 'storage/images/products/j0t2xYNfRdFiSmuI3lGFTtVYDyQAfAJ2lwlCiEQS.jpg', 'Nisi aenean dolor semper nisi. Eiusmod ipsum semper sit nisi. Eiusmod sit vendor tellus sit vendor. Vivamus aenean eiusmod leo nisi. Semper porttitor lorem. Semper. Elementum ipsum sed. Aenean vivamus vendor porttitor. Nisi ipsum sed. Sit vivamus leo consectetur sit. Tellus ipsum consectetur aenean lorem. Leo nisi dolor ipsum semper vivamus elementum ipsum porttitor. Sed vendor. Tellus consectetur ipsum aenean. Elit sit leo sed. Elit aenean dolor nisi vendor aenean. Nisi dolor elit sit leo tellus vivamus. Sed vendor aenean semper lorem semper consectetur. Elementum tellus consectetur sed semper nisi. Semper aenean tellus vivamus semper eiusmod. Lorem vendor. Dolor vendor.', '2026-10-25 16:27:40', '2026-10-25 16:27:40'),
-(10, 'Women 3', 'women-3', 18, 3, 18.33, 'storage/images/products/U06bOEtNcN7Zwg38hpLIy6T4872gE7WOzKv5Lih1.jpg', 'Ipsum tellus semper nisi eiusmod sit ipsum. Sed leo nisi aenean vivamus aenean semper. Dolor vivamus lorem vivamus elementum semper vendor. Sit tellus vendor aenean. Nisi elementum dolor nisi consectetur. Nisi dolor nisi sed leo. Elit. Leo porttitor ipsum vivamus. Sed tellus. Dolor semper sed dolor nisi dolor eiusmod. Sit nisi tellus semper eiusmod semper porttitor. Vivamus sed elementum semper sit semper nisi. Sit semper. Elementum consectetur ipsum vendor elementum sit elit. Tellus vendor lorem elementum ipsum dolor sed elementum. Leo elementum porttitor sit lorem. Vendor sit lorem ipsum vivamus. Dolor elit vivamus elementum sed. Elementum sit consectetur tellus. Consectetur.', '2026-10-25 16:28:12', '2026-10-25 16:28:12'),
-(11, 'Old Men 1', 'old-men-1', 11, 2, 11.34, 'storage/images/products/BEM9VZarIuKpUNO9ynwPLVecVTu3qv5LpYEzeejZ.jpg', 'Elit vivamus porttitor sit elit sed lorem. Elementum ipsum porttitor vendor semper. Porttitor leo porttitor leo. Eiusmod aenean. Consectetur tellus sed. Vendor sed dolor. Nisi elit consectetur nisi leo dolor vivamus sed. Eiusmod aenean dolor leo vivamus elit leo dolor. Ipsum sed elit tellus vivamus. Sit aenean vendor sed elit. Lorem sit lorem elementum semper consectetur. Ipsum dolor vivamus ipsum. Vendor vivamus leo. Tellus elementum leo. Vivamus lorem sed semper eiusmod leo. Vivamus nisi eiusmod dolor leo. Semper consectetur aenean elementum eiusmod lorem porttitor. Elementum. Nisi porttitor vivamus eiusmod aenean elit. Eiusmod tellus semper lorem nisi. Consectetur vivamus porttitor eiusmod.', '2026-10-25 16:28:45', '2026-10-25 16:28:45'),
-(12, 'Old Men 2', 'old-men-2', 21, 4, 14.34, 'storage/images/products/vzHbyhzWMQK9RoPprDwccoFy1GCZkbEafykzotKK.jpg', 'Vivamus elementum aenean consectetur ipsum tellus. Nisi tellus vivamus tellus. Leo tellus lorem leo. Consectetur. Elementum ipsum dolor. Tellus vendor dolor vendor eiusmod sit aenean ipsum sed. Consectetur dolor leo porttitor vivamus sit vivamus dolor ipsum. Eiusmod nisi vendor elementum sit eiusmod. Porttitor elit tellus leo semper consectetur vendor. Nisi elit semper sed leo tellus dolor. Lorem nisi leo elementum vivamus consectetur sed consectetur. Sed vendor aenean porttitor vendor lorem nisi dolor. Leo tellus dolor semper ipsum. Semper ipsum sed lorem sit vivamus ipsum. Sit aenean porttitor vivamus vendor nisi. Porttitor aenean semper nisi vivamus dolor. Consectetur dolor lorem consectetur.', '2026-10-25 16:29:17', '2026-10-25 16:29:17'),
-(13, 'Old Men 3', 'old-men-3', 21, 4, 19.99, 'storage/images/products/5U6Pfv0jqXavdwdUJf0EhW6wfkYtvA54Szy7M6IU.jpg', 'Elementum vivamus consectetur sit eiusmod sit. Eiusmod. Sed vivamus lorem sed sit vivamus vendor. Aenean leo consectetur tellus. Porttitor vivamus lorem. Vendor dolor sit dolor. Nisi consectetur vivamus. Vendor semper aenean vendor. Elementum leo tellus. Nisi vivamus elementum aenean semper elit sit. Elementum aenean nisi. Semper lorem tellus. Semper leo. Ipsum elementum ipsum elit ipsum aenean. Vivamus aenean elit vendor. Sit dolor ipsum eiusmod dolor tellus. Nisi porttitor elit aenean. Porttitor elit sed porttitor consectetur. Sed ipsum. Semper dolor elementum. Eiusmod sed dolor aenean. Ipsum lorem elementum lorem. Porttitor vivamus eiusmod aenean tellus elit vendor porttitor. Nisi consectetur. Sit dolor.', '2026-10-25 16:29:50', '2026-10-25 16:29:50'),
-(14, 'Kid 1', 'kid-1', 12, 5, 15.43, 'storage/images/products/hHVyr7zOXTZWwAMjidYBsIcrClbTVmO1YSoqjvXe.jpg', 'Eiusmod consectetur sit vivamus consectetur dolor aenean sit. Lorem elit elementum consectetur. Elit tellus leo. Consectetur lorem sed. Lorem consectetur sed. Consectetur elementum aenean tellus sed ipsum. Eiusmod vendor ipsum. Consectetur vivamus sit elementum sed consectetur. Tellus sit lorem elementum. Nisi consectetur vivamus elit vivamus eiusmod vivamus sit. Tellus semper. Eiusmod vivamus ipsum aenean tellus semper. Aenean vendor ipsum leo eiusmod dolor sed porttitor. Consectetur eiusmod vendor eiusmod leo lorem sit lorem. Tellus dolor aenean lorem elementum. Vivamus vendor vivamus. Elit nisi vivamus lorem. Porttitor elementum lorem dolor lorem porttitor. Dolor elit nisi eiusmod semper. Tellus aenean elit. Aenean ipsum.', '2026-10-25 16:30:27', '2026-10-25 16:30:27'),
-(15, 'Kid 2', 'kid-2', 24, 5, 21.30, 'storage/images/products/SJSiJGm5fRLNPi0l1wzA8EMEODaWWzNMe0gAZZES.jpg', 'Elit vendor nisi tellus lorem vendor. Semper nisi ipsum. Eiusmod consectetur dolor. Sit sed lorem vivamus. Ipsum elit consectetur leo sit aenean vendor consectetur. Semper nisi aenean nisi semper vendor. Nisi eiusmod tellus lorem vendor. Semper. Elementum lorem semper lorem. Elementum eiusmod lorem porttitor sed. Sit semper elementum vivamus aenean. Eiusmod elementum sit elementum vendor. Nisi dolor leo ipsum tellus. Nisi porttitor dolor vendor elit elementum. Semper sed aenean leo tellus porttitor. Dolor semper porttitor. Eiusmod tellus sit. Aenean nisi. Sed dolor elementum leo. Sed. Elit nisi tellus elit eiusmod sed. Leo ipsum sed vivamus. Consectetur. Dolor sit. Eiusmod. Vivamus.', '2026-10-25 16:30:58', '2026-10-25 16:30:58'),
-(16, 'Kid 3', 'kid-3', 22, 5, 22.30, 'storage/images/products/rdi5R0KMCoYKZRUWq7oaXiLThCrowWK1ri0Y6Z1U.jpg', 'Semper ipsum leo elementum consectetur tellus. Eiusmod consectetur ipsum sed. Lorem aenean. Elit vivamus dolor. Elit ipsum nisi tellus aenean. Vivamus. Aenean sit nisi sed ipsum aenean nisi. Ipsum eiusmod nisi eiusmod vivamus sed elit sed. Semper nisi semper ipsum. Nisi dolor semper elit sit. Ipsum consectetur lorem. Semper sed sit porttitor elit porttitor. Vivamus eiusmod nisi semper elit consectetur. Sit dolor porttitor. Aenean tellus vendor dolor elementum nisi sed. Nisi dolor. Semper nisi consectetur sit aenean vendor sit lorem. Eiusmod. Elementum eiusmod tellus sed lorem leo eiusmod tellus eiusmod. Leo. Vivamus leo sed dolor consectetur nisi lorem semper. Dolor.', '2026-10-25 16:31:31', '2026-10-25 16:31:31');
+(5, 'Man 2', 'man-2', 13, 2, 13.32, 'storage/images/products/BuKJ9l9Bjz8t3yVQhNNrwKLc9u3YNtNhPDN9mB9s.jpg', 'Sit vivamus elementum leo aenean. Leo consectetur. Tellus sed aenean lorem sed. Dolor tellus semper ipsum eiusmod semper. Dolor nisi elit porttitor aenean eiusmod. Elementum porttitor tellus semper sed vendor vivamus leo. Porttitor ipsum vivamus elit. Ipsum leo tellus sit. Vivamus porttitor. Vendor tellus nisi sed elit consectetur. Elit aenean eiusmod vendor semper nisi porttitor sit. Nisi eiusmod vivamus ipsum sed nisi consectetur. Porttitor elementum porttitor. Consectetur nisi vivamus sed elit sit. Eiusmod porttitor dolor. Sed sit. Porttitor dolor consectetur. Porttitor. Vivamus lorem vendor lorem nisi aenean sed. Aenean sit. Elementum dolor sit vivamus porttitor. Consectetur. Lorem tellus elementum vivamus.', '2026-10-25 16:25:42', '2026-10-26 03:02:15'),
+(6, 'Man 3', 'man-3', 14, 2, 14.34, 'storage/images/products/XKZyhCuvePAeurk2aB5DVMsYSJa6pReo8uBAXv6A.jpg', 'Elementum nisi elit consectetur eiusmod leo. Nisi elit tellus vivamus. Semper vendor. Tellus porttitor. Sit. Porttitor. Eiusmod nisi consectetur sit. Vendor vivamus elementum vivamus. Ipsum nisi aenean consectetur vivamus tellus. Porttitor tellus leo tellus ipsum. Porttitor. Aenean elit vendor vivamus sit consectetur dolor sed dolor. Vendor semper leo aenean. Sed tellus semper leo sit dolor elementum. Sit porttitor semper sit. Vivamus porttitor aenean lorem leo. Sit sed semper sit lorem. Elit dolor porttitor eiusmod nisi. Lorem eiusmod vendor sit aenean. Vivamus. Ipsum porttitor nisi tellus porttitor dolor elementum nisi ipsum. Aenean dolor aenean vendor eiusmod sed leo vendor porttitor. Sit.', '2026-10-25 16:26:13', '2026-10-26 03:02:29'),
+(7, 'Man 4', 'man-4', 15, 2, 15.43, 'storage/images/products/zG8nFriEGir5ayKYGGJ4GdBXV9pSDRCVnpfDKx6p.jpg', 'Semper aenean leo vivamus tellus semper consectetur. Elit nisi vivamus nisi elementum consectetur vendor. Tellus. Lorem. Ipsum eiusmod. Vendor aenean nisi. Sed aenean leo lorem. Sed vendor semper lorem consectetur. Tellus sit vendor tellus elementum sed. Consectetur sed vivamus eiusmod nisi leo. Sed porttitor sed. Tellus vendor leo. Sit. Semper vendor leo elit sit sed vendor. Vivamus porttitor vendor lorem. Leo elit semper sit. Semper aenean lorem dolor eiusmod lorem vendor nisi. Lorem eiusmod vivamus elit semper aenean nisi lorem. Tellus vendor elementum elit lorem. Aenean ipsum leo dolor elementum dolor. Porttitor consectetur sed elit nisi aenean sit consectetur. Leo.', '2026-10-25 16:26:41', '2026-10-26 03:02:38'),
+(8, 'Women 1', 'women-1', 12, 3, 13.30, 'storage/images/products/repJWWEQEnbxYdKLykPC6ZVjSO6ocZAeLaH9rqjx.jpg', 'Leo porttitor elit eiusmod nisi eiusmod ipsum. Sit nisi semper tellus semper. Consectetur semper sit. Aenean ipsum sed leo ipsum. Semper elementum vivamus tellus. Sed porttitor consectetur. Vivamus. Porttitor sit leo sed lorem sed elementum sed. Sit eiusmod elementum aenean vendor semper lorem vendor tellus. Dolor lorem vendor lorem. Nisi. Eiusmod lorem consectetur vivamus nisi ipsum. Aenean ipsum elementum eiusmod dolor lorem consectetur. Semper dolor elementum semper ipsum tellus dolor. Eiusmod elit. Elementum ipsum vendor eiusmod ipsum sed eiusmod consectetur vendor. Semper vivamus sed porttitor ipsum elit vendor tellus elit. Ipsum lorem nisi aenean vendor lorem. Leo elementum. Vivamus sed.', '2026-10-25 16:27:15', '2026-10-26 03:04:01'),
+(9, 'Women 2', 'women-2', 17, 3, 16.54, 'storage/images/products/IU9u9mjHTJU2FlzTwlWz5obOHIosUmzzX2oW6NIv.jpg', 'Nisi aenean dolor semper nisi. Eiusmod ipsum semper sit nisi. Eiusmod sit vendor tellus sit vendor. Vivamus aenean eiusmod leo nisi. Semper porttitor lorem. Semper. Elementum ipsum sed. Aenean vivamus vendor porttitor. Nisi ipsum sed. Sit vivamus leo consectetur sit. Tellus ipsum consectetur aenean lorem. Leo nisi dolor ipsum semper vivamus elementum ipsum porttitor. Sed vendor. Tellus consectetur ipsum aenean. Elit sit leo sed. Elit aenean dolor nisi vendor aenean. Nisi dolor elit sit leo tellus vivamus. Sed vendor aenean semper lorem semper consectetur. Elementum tellus consectetur sed semper nisi. Semper aenean tellus vivamus semper eiusmod. Lorem vendor. Dolor vendor.', '2026-10-25 16:27:40', '2026-10-26 03:04:17'),
+(10, 'Women 3', 'women-3', 18, 3, 18.33, 'storage/images/products/bByto86uZwoctUYx4WMfgZedfLX1XsgSB70utVba.jpg', 'Ipsum tellus semper nisi eiusmod sit ipsum. Sed leo nisi aenean vivamus aenean semper. Dolor vivamus lorem vivamus elementum semper vendor. Sit tellus vendor aenean. Nisi elementum dolor nisi consectetur. Nisi dolor nisi sed leo. Elit. Leo porttitor ipsum vivamus. Sed tellus. Dolor semper sed dolor nisi dolor eiusmod. Sit nisi tellus semper eiusmod semper porttitor. Vivamus sed elementum semper sit semper nisi. Sit semper. Elementum consectetur ipsum vendor elementum sit elit. Tellus vendor lorem elementum ipsum dolor sed elementum. Leo elementum porttitor sit lorem. Vendor sit lorem ipsum vivamus. Dolor elit vivamus elementum sed. Elementum sit consectetur tellus. Consectetur.', '2026-10-25 16:28:12', '2026-10-26 03:04:30'),
+(11, 'Old Men 1', 'old-men-1', 11, 4, 11.34, 'storage/images/products/jks6nbpi0lXM5XUEMxg1PWTre5M4RZAT4FXgfxUA.jpg', 'Elit vivamus porttitor sit elit sed lorem. Elementum ipsum porttitor vendor semper. Porttitor leo porttitor leo. Eiusmod aenean. Consectetur tellus sed. Vendor sed dolor. Nisi elit consectetur nisi leo dolor vivamus sed. Eiusmod aenean dolor leo vivamus elit leo dolor. Ipsum sed elit tellus vivamus. Sit aenean vendor sed elit. Lorem sit lorem elementum semper consectetur. Ipsum dolor vivamus ipsum. Vendor vivamus leo. Tellus elementum leo. Vivamus lorem sed semper eiusmod leo. Vivamus nisi eiusmod dolor leo. Semper consectetur aenean elementum eiusmod lorem porttitor. Elementum. Nisi porttitor vivamus eiusmod aenean elit. Eiusmod tellus semper lorem nisi. Consectetur vivamus porttitor eiusmod.', '2026-10-25 16:28:45', '2026-10-26 03:03:17'),
+(12, 'Old Men 2', 'old-men-2', 21, 4, 14.34, 'storage/images/products/EnP523XpiiAvhpfX1XB3oPQdNh0uGE43U3iB65av.jpg', 'Vivamus elementum aenean consectetur ipsum tellus. Nisi tellus vivamus tellus. Leo tellus lorem leo. Consectetur. Elementum ipsum dolor. Tellus vendor dolor vendor eiusmod sit aenean ipsum sed. Consectetur dolor leo porttitor vivamus sit vivamus dolor ipsum. Eiusmod nisi vendor elementum sit eiusmod. Porttitor elit tellus leo semper consectetur vendor. Nisi elit semper sed leo tellus dolor. Lorem nisi leo elementum vivamus consectetur sed consectetur. Sed vendor aenean porttitor vendor lorem nisi dolor. Leo tellus dolor semper ipsum. Semper ipsum sed lorem sit vivamus ipsum. Sit aenean porttitor vivamus vendor nisi. Porttitor aenean semper nisi vivamus dolor. Consectetur dolor lorem consectetur.', '2026-10-25 16:29:17', '2026-10-26 03:03:28'),
+(13, 'Old Men 3', 'old-men-3', 21, 4, 19.99, 'storage/images/products/63xS2NfHmwarZLecaNHdOWkV1sJ47FTdnXHuQY1h.jpg', 'Elementum vivamus consectetur sit eiusmod sit. Eiusmod. Sed vivamus lorem sed sit vivamus vendor. Aenean leo consectetur tellus. Porttitor vivamus lorem. Vendor dolor sit dolor. Nisi consectetur vivamus. Vendor semper aenean vendor. Elementum leo tellus. Nisi vivamus elementum aenean semper elit sit. Elementum aenean nisi. Semper lorem tellus. Semper leo. Ipsum elementum ipsum elit ipsum aenean. Vivamus aenean elit vendor. Sit dolor ipsum eiusmod dolor tellus. Nisi porttitor elit aenean. Porttitor elit sed porttitor consectetur. Sed ipsum. Semper dolor elementum. Eiusmod sed dolor aenean. Ipsum lorem elementum lorem. Porttitor vivamus eiusmod aenean tellus elit vendor porttitor. Nisi consectetur. Sit dolor.', '2026-10-25 16:29:50', '2026-10-26 03:04:46'),
+(14, 'Kid 1', 'kid-1', 12, 5, 15.43, 'storage/images/products/ip7tNP3RYQCoNTSAw5V7WhRKqEn6TrfBmQXq7P4T.jpg', 'Eiusmod consectetur sit vivamus consectetur dolor aenean sit. Lorem elit elementum consectetur. Elit tellus leo. Consectetur lorem sed. Lorem consectetur sed. Consectetur elementum aenean tellus sed ipsum. Eiusmod vendor ipsum. Consectetur vivamus sit elementum sed consectetur. Tellus sit lorem elementum. Nisi consectetur vivamus elit vivamus eiusmod vivamus sit. Tellus semper. Eiusmod vivamus ipsum aenean tellus semper. Aenean vendor ipsum leo eiusmod dolor sed porttitor. Consectetur eiusmod vendor eiusmod leo lorem sit lorem. Tellus dolor aenean lorem elementum. Vivamus vendor vivamus. Elit nisi vivamus lorem. Porttitor elementum lorem dolor lorem porttitor. Dolor elit nisi eiusmod semper. Tellus aenean elit. Aenean ipsum.', '2026-10-25 16:30:27', '2026-10-26 03:05:02'),
+(15, 'Kid 2', 'kid-2', 24, 5, 21.30, 'storage/images/products/qINYQkrdVKn9YGOYz6KOoblTU31d6AeI3uzwWoWJ.jpg', 'Elit vendor nisi tellus lorem vendor. Semper nisi ipsum. Eiusmod consectetur dolor. Sit sed lorem vivamus. Ipsum elit consectetur leo sit aenean vendor consectetur. Semper nisi aenean nisi semper vendor. Nisi eiusmod tellus lorem vendor. Semper. Elementum lorem semper lorem. Elementum eiusmod lorem porttitor sed. Sit semper elementum vivamus aenean. Eiusmod elementum sit elementum vendor. Nisi dolor leo ipsum tellus. Nisi porttitor dolor vendor elit elementum. Semper sed aenean leo tellus porttitor. Dolor semper porttitor. Eiusmod tellus sit. Aenean nisi. Sed dolor elementum leo. Sed. Elit nisi tellus elit eiusmod sed. Leo ipsum sed vivamus. Consectetur. Dolor sit. Eiusmod. Vivamus.', '2026-10-25 16:30:58', '2026-10-26 03:05:19'),
+(16, 'Kid 3', 'kid-3', 22, 5, 22.30, 'storage/images/products/1hVFm0oh27C0IwV0FOx1bWKSTGqrwGMA8aDkrXoe.jpg', 'Semper ipsum leo elementum consectetur tellus. Eiusmod consectetur ipsum sed. Lorem aenean. Elit vivamus dolor. Elit ipsum nisi tellus aenean. Vivamus. Aenean sit nisi sed ipsum aenean nisi. Ipsum eiusmod nisi eiusmod vivamus sed elit sed. Semper nisi semper ipsum. Nisi dolor semper elit sit. Ipsum consectetur lorem. Semper sed sit porttitor elit porttitor. Vivamus eiusmod nisi semper elit consectetur. Sit dolor porttitor. Aenean tellus vendor dolor elementum nisi sed. Nisi dolor. Semper nisi consectetur sit aenean vendor sit lorem. Eiusmod. Elementum eiusmod tellus sed lorem leo eiusmod tellus eiusmod. Leo. Vivamus leo sed dolor consectetur nisi lorem semper. Dolor.', '2026-10-25 16:31:31', '2026-10-26 03:05:33'),
+(17, 'Man 1', 'man-1', 12, 2, 12.33, 'storage/images/products/1Zq19Z6BXGEqhFky56tUYWDK4dc6O3KDbP3jKuuX.jpg', 'Sit semper elementum consectetur nisi tellus lorem sit tellus. Elit sit semper eiusmod sit porttitor consectetur elementum dolor. Elementum semper elit sed dolor semper. Tellus eiusmod aenean. Eiusmod leo vivamus. Elit lorem aenean semper ipsum elit. Tellus sit sed vendor consectetur vivamus. Aenean dolor semper vendor leo elementum. Tellus porttitor sit consectetur tellus eiusmod. Tellus dolor sit elit sit nisi. Vendor sit tellus vivamus sed. Tellus vendor tellus elit semper consectetur elit. Consectetur sed elementum vendor semper aenean. Leo consectetur sit. Nisi consectetur vivamus semper. Ipsum vendor aenean elit aenean vendor. Sed semper elit eiusmod nisi. Elementum ipsum tellus. Vendor.', '2026-10-26 02:59:22', '2026-10-26 02:59:22');
 
 -- --------------------------------------------------------
 
@@ -318,9 +318,9 @@ INSERT INTO `products` (`id`, `name`, `slug`, `quantity`, `category_id`, `price`
 --
 
 CREATE TABLE `product_size` (
-  `id` bigint UNSIGNED NOT NULL,
-  `product_id` bigint UNSIGNED NOT NULL,
-  `size_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `size_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -330,9 +330,6 @@ CREATE TABLE `product_size` (
 --
 
 INSERT INTO `product_size` (`id`, `product_id`, `size_id`, `created_at`, `updated_at`) VALUES
-(10, 4, 1, NULL, NULL),
-(11, 4, 2, NULL, NULL),
-(12, 4, 3, NULL, NULL),
 (13, 5, 2, NULL, NULL),
 (14, 5, 3, NULL, NULL),
 (15, 5, 4, NULL, NULL),
@@ -368,7 +365,10 @@ INSERT INTO `product_size` (`id`, `product_id`, `size_id`, `created_at`, `update
 (45, 16, 2, NULL, NULL),
 (46, 16, 3, NULL, NULL),
 (47, 16, 4, NULL, NULL),
-(48, 16, 5, NULL, NULL);
+(48, 16, 5, NULL, NULL),
+(49, 17, 1, NULL, NULL),
+(50, 17, 2, NULL, NULL),
+(51, 17, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -377,8 +377,8 @@ INSERT INTO `product_size` (`id`, `product_id`, `size_id`, `created_at`, `update
 --
 
 CREATE TABLE `roles` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -398,9 +398,9 @@ INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `role_user` (
-  `id` bigint UNSIGNED NOT NULL,
-  `role_id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -419,12 +419,12 @@ INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`)
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int NOT NULL
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -432,7 +432,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('ihEvWdAzNGpu4zi6l1e9JAuJnlp1wMu6AD1A71Fd', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJ5Y2tYYUYzMGpOaG1oNm9tR1k2SmxzMVBOdDBWT28xVGxNcHdJc1RvIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvaW5kZXgiLCJyb3V0ZSI6ImFkbWluLmluZGV4In0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfSwibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiOjEsInBhc3N3b3JkX2hhc2hfd2ViIjoiOWU4NzViZGFjYzAxNzE1NWNjN2Y0NmRlYWRmM2Q0ZTc3MDkzYjg4NjFmZjM5NWE2NWRhYWY4N2JmOTMyNWRkMyJ9', 1792956699);
+('7pyZt9dz1qshKWy6zkkVne4dfpbtVOlj2okPXSIw', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJ4b2Nua3NrMEdHdkpjNzZKaFV2SGRvbDFGU1RWdWM3RG9yZVN6TDYxIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvcHJvZHVjdCIsInJvdXRlIjoiYWRtaW4ucHJvZHVjdC5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxLCJwYXNzd29yZF9oYXNoX3dlYiI6IjQ2Y2QzYjZkMTA3NzRmZjUzMDBiZGRhOGI4ZDgyZWZkYzBmNWE4YWZiNTJkNmMyOTFmZTIxYTVmY2FkYmYzOTUifQ==', 1792996164),
+('UlzEgI80T3XkqneUyfj40Yz6VXsEnGL89KId8TFk', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJjRDkxeU0zNjV5TVBHb2NiU1J2cjdlZ3hRT1JaT25tSWxxMjk1RFl1IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvcHJvZHVjdCIsInJvdXRlIjoiYWRtaW4ucHJvZHVjdC5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoxLCJwYXNzd29yZF9oYXNoX3dlYiI6IjQ2Y2QzYjZkMTA3NzRmZjUzMDBiZGRhOGI4ZDgyZWZkYzBmNWE4YWZiNTJkNmMyOTFmZTIxYTVmY2FkYmYzOTUifQ==', 1793078880),
+('xXREv1n58HIBJYupNFs2ZNdQJCAxXPo02rvu2qNZ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJzQTBpR3kwRGpuY1c4WUdQUDdrZHExWndtZVl4bUpWRHBrZnVkaDBDIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cLzEyNy4wLjAuMTo4MDAwXC9hZG1pblwvbG9naW4iLCJyb3V0ZSI6ImFkbWluLmxvZ2luIn0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=', 1793086378);
 
 -- --------------------------------------------------------
 
@@ -441,9 +443,9 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 --
 
 CREATE TABLE `sizes` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -467,17 +469,17 @@ INSERT INTO `sizes` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `profile_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `zip_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `profile_completed` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `zip_code` varchar(255) DEFAULT NULL,
+  `profile_completed` varchar(255) NOT NULL DEFAULT '0',
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -624,79 +626,79 @@ ALTER TABLE `users`
 -- Tablo için AUTO_INCREMENT değeri `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `color_product`
 --
 ALTER TABLE `color_product`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `product_size`
 --
 ALTER TABLE `product_size`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `sizes`
 --
 ALTER TABLE `sizes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar

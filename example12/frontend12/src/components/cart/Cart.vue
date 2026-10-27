@@ -2,7 +2,7 @@
   <div class="col-md-12 d-flex justify-content-between">
     <div
       class="col-md-12 d-flex justify-content-center alert alert-primary mt-2"
-      v-if="!cartStore.cartItems"
+      v-if="!cartStore.cartItems.length"
     >
       <h3>
         <i class="bi bi-exclamation-triangle-fill"></i> Your cart is empty

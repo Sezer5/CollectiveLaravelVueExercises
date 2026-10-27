@@ -79,7 +79,21 @@
           </div>
         </div>
         <div class="w-100 mt-5 text-end">
-          <button class="btn btn-lg btn-primary">
+          <button
+            class="btn btn-lg btn-primary"
+            @click="
+              cartStore.addItemToCart({
+                ref: makeUniqueId(10),
+                color: chosenData.chosenColor,
+                size: chosenData.chosenSize,
+                qty: chosenData.chosenQty,
+                maxQTY: productStore.productDetail?.quantity,
+                product_id: productStore.productDetail?.id,
+                thumbnail: productStore.productDetail?.thumbnail,
+                price: productStore.productDetail?.price,
+              })
+            "
+          >
             <i class="bi bi-cart-plus"></i> Add Cart
           </button>
         </div>
@@ -93,10 +107,12 @@ import { useProductStore } from "@/stores/useProductStore";
 import { useRoute } from "vue-router";
 import Spinner from "../layouts/Spinner.vue";
 import { onMounted, reactive } from "vue";
-import { BASE_URL } from "@/helpers/config";
+import { BASE_URL, makeUniqueId } from "@/helpers/config";
 import { DataLoaderPlugin } from "vue-router/experimental";
+import { useCartStore } from "@/stores/useCartStore.js";
 
 const productStore = useProductStore();
+const cartStore = useCartStore();
 const term = useRoute().params.slug;
 
 const chosenData = reactive({

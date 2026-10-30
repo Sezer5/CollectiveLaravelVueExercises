@@ -58,7 +58,11 @@
               <i class="bi bi-person"></i> Profile
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li>
+                <router-link class="dropdown-item" to="/profile"
+                  >Profile</router-link
+                >
+              </li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>

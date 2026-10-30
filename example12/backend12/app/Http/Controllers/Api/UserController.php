@@ -32,7 +32,7 @@ class UserController extends Controller
             if (!$user || !Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'error' => 'These credentials do not match our records'
-                ]);
+                ], 401);
             } else {
                 return response()->json([
                     'user' => UserResource::make($user->load('roles')),
@@ -45,34 +45,37 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'profile_image' => 'image|mimes:png,jpg,jpeg,webp|max:2048'
+        ]);
         $user = $request->user();
         if ($request->has('profile_image')) {
 
             if ($request->user()->profile_image) {
                 $this->deleteImage($request->user()->profile_image);
-
-                $request->validate([
-                    'profile_image' => 'images|mimes:png,jpg,jpeg,webp|max:2048'
-                ]);
-
-                $profileImagePath = $this->saveImage($request->file('profile_image'));
+                $profile_image_path = $this->saveImage($request->file('profile_image'));
 
                 $request->user()->update([
-                    'profile_image' => $profileImagePath
+                    'profile_image' => $profile_image_path
                 ]);
 
                 return response()->json([
                     'user' => UserResource::make($user->load('roles')),
-                    'message' => 'Profile image updated successfully'
+                    'message' => 'User profile image updated successfully'
+                ]);
+            } else {
+                $profile_image_path = $this->saveImage($request->file('profile_image'));
+
+                $request->user()->update([
+                    'profile_image' => $profile_image_path
+                ]);
+
+                return response()->json([
+                    'user' => UserResource::make($user->load('roles')),
+                    'message' => 'User profile image updated successfully'
                 ]);
             }
         } else {
-            $request->validate([
-                'address' => 'required|min:1|max:255',
-                'country' => 'required|min:1|max:255',
-                'zip_code' => 'required|min:1|max:255'
-            ]);
-
             $request->user()->update([
                 'address' => $request->address,
                 'country' => $request->country,
@@ -81,7 +84,7 @@ class UserController extends Controller
 
             return response()->json([
                 'user' => UserResource::make($user->load('roles')),
-                'message' => 'User informations updated successfully'
+                'message' => 'User profile image updated successfully'
             ]);
         }
     }

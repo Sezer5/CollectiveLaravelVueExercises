@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthAdminRequest;
+use App\Http\Requests\Admin\AuthAdminRequest;
 use App\Http\Resources\AdminResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,10 +17,10 @@ class AuthAdminController extends Controller
         if ($request->validated()) {
             $user = User::whereEmail($request->email)->first();
 
-            if (!$user || !Hash::check($request->password, $user->password || !$user->hasRole('admin'))) {
+            if (!$user || !Hash::check($request->password, $user->password) || !$user->hasRole('admin')) {
                 return response()->json([
                     'error' => 'These credentials do not match our records or you are not have an admin role'
-                ]);
+                ], 401);
             } else {
                 return response()->json([
                     'user' => AdminResource::make($user->load('roles')),

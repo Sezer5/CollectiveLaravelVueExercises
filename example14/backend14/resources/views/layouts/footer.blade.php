@@ -1,29 +1,29 @@
         <footer class="text-center">
             <div class="container">
-                <span class="text-muted small">&copy; 2026 <strong>Admin Yönetim Sistemi</strong>. Tüm hakları saklıdır.</span>
+                <span class="text-muted small">&copy; 2026 <strong>Admin Management System</strong></span>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             @session('success')
-            <script>
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "{{session('success')}}",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            </script>
+                <script>
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "{{ session('success') }}",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                </script>
             @endsession
             @session('error')
-            <script>
-                Swal.fire({
-                    position: "top-end",
-                    icon: "error",
-                    title: "{{ session('error') }}",
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-            </script>
+                <script>
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "{{ session('error') }}",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                </script>
             @endsession
             <script>
                 function deleteItem(id) {

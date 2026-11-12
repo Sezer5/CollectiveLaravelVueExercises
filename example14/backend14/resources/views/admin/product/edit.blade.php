@@ -1,6 +1,6 @@
     @extends('layouts.adminlayout')
     @section('title')
-        Product Add
+        Product Edit
     @endsection
     @section('content')
         <main class="p-4">
@@ -9,10 +9,11 @@
                     <div class="col-md-12 mb-4">
                         <div class="card p-3">
                             <div class="card-header col-md-4 d-flex justify-content-between align-items-center">
-                                <h3>Product Add</h3>
+                                <h3>Product Edit</h3>
                             </div>
                             <div class="card-body col-md-4">
-                                <form action="{{ route('admin.product.update', $product->slug) }}" method="post">
+                                <form action="{{ route('admin.product.update', $product->slug) }}" method="post"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="mb-3">
@@ -24,9 +25,76 @@
                                             <span class="invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Price</label>
+                                        <input type="text" class="form-control @error('price') is-invalid @enderror"
+                                            name="price" id="price" aria-describedby="helpId"
+                                            placeholder="Please enter a price*"
+                                            value="{{ $product->price, old('price') }}" />
+                                        @error('price')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Quantity</label>
+                                        <input type="text" class="form-control @error('quantity') is-invalid @enderror"
+                                            name="quantity" id="quantity" aria-describedby="helpId"
+                                            placeholder="Please enter a quantity*"
+                                            value="{{ $product->quantity, old('quantity') }}" />
+                                        @error('quantity')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Category</label>
+                                        <select class="form-select form-select-sm" name="category_id">
+                                            <option value="{{ $product->category->id }}">{{ $product->category->name }}
+                                            </option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Colors</label>
+                                        <select multiple class="form-select form-select-sm" name="color_id[]"
+                                            id="color_id">
+                                            @foreach ($colors as $color)
+                                                <option value="{{ $color->id }}"
+                                                    @if ($product->colors->contains($color->id)) selected @endif>
+                                                    {{ $color->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Sizes</label>
+                                        <select multiple class="form-select form-select-sm" name="size_id[]" id="size_id">
+                                            @foreach ($sizes as $size)
+                                                <option value="{{ $size->id }}"
+                                                    @if ($product->sizes->contains($size->id)) selected @endif>
+                                                    {{ $size->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Description</label>
+                                        <textarea class="form-control" name="description" id="" rows="3">{{ $product->description }}</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Thumbnail</label>
+                                        <input type="file" class="form-control @error('thumbnail') is-invalid @enderror"
+                                            name="thumbnail" id="thumbnail" aria-describedby="helpId"
+                                            placeholder="Please enter a thumbnail*" value="{{ old('thumbnail') }}" />
+                                        @error('thumbnail')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+
                                     <div class="mb-3 text-end">
-                                        <button class="btn btn-sm btn-success"><i class="bi bi-arrow-clockwise"></i>
-                                            Update</button>
+                                        <button class="btn btn-sm btn-success"><i class="bi bi-plus"></i> Add</button>
                                     </div>
 
                                 </form>

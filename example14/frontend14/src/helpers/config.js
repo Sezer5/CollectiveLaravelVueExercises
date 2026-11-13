@@ -10,3 +10,4 @@ export const headersConfig = (token,contentType) => {
 
     return config
 }
+

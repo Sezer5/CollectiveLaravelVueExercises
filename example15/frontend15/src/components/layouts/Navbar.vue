@@ -21,9 +21,7 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link" to="/dashboard"
-              >Ana Sayfa</router-link
-            >
+            <router-link class="nav-link" to="/">Ana Sayfa</router-link>
           </li>
 
           <!-- Açılır Menü (Dropdown) -->
@@ -39,26 +37,11 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <router-link class="dropdown-item" to="/requests"
+                <router-link class="dropdown-item" to="/"
                   >Talep Listesi</router-link
                 >
               </li>
-              <li>
-                <router-link class="dropdown-item" to="/requests/new"
-                  >Yeni Talep</router-link
-                >
-              </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
-                <router-link class="dropdown-item" to="/invoices"
-                  >Faturalar</router-link
-                >
-              </li>
             </ul>
-          </li>
-
-          <li class="nav-item">
-            <router-link class="nav-link" to="/reports">Raporlar</router-link>
           </li>
         </ul>
 
@@ -73,7 +56,7 @@
               aria-expanded="false"
             >
               <i class="bi bi-person-circle fs-5"></i>
-              <span>Hesabım</span>
+              <span>{{ authStore.user?.name }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
@@ -81,14 +64,10 @@
                   >Profil Bilgileri</router-link
                 >
               </li>
-              <li>
-                <router-link class="dropdown-item" to="/settings"
-                  >Ayarlar</router-link
-                >
-              </li>
+
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <button class="dropdown-item text-danger" @click="logout">
+                <button class="dropdown-item text-danger" @click="logout()">
                   Çıkış Yap
                 </button>
               </li>
@@ -101,9 +80,44 @@
 </template>
 
 <script setup>
-// Çıkış fonksiyonu örneği
-const logout = () => {
-  console.log("Çıkış yapıldı...");
-  // Buraya pinia store logout veya yönlendirme eklenebilir
+import { BASE_URL, headersConfig } from "@/helpers/config";
+import { useAuthStore } from "@/stores/useAuthStore";
+import axios from "axios";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+const checkAuth = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/user`,
+      headersConfig(authStore.access_token)
+    );
+    authStore.setUser(response.data.user);
+    authStore.setAccessToken(response.data.access_token);
+    authStore.setRoles(response.data.user.roles);
+    authStore.setIsLoggedIn();
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+const logout = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/user/logout`,
+      headersConfig(authStore.access_token)
+    );
+    authStore.clearAuth();
+    router.push("/login");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  checkAuth();
+});
 </script>

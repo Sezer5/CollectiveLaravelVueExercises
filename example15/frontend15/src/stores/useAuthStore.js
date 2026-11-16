@@ -24,13 +24,16 @@ export const useAuthStore = defineStore('auth', {
     setAccessToken(token){
       this.access_token=token
     },
+    setRoles(roles){
+      this.roles=roles
+    },
     setIsLoggedIn(){
       this.isLoggedIn=true
     },
     setValidationErrors(error){
       this.validationErrors=error
     },
-    clearValidationErrors(error){
+    clearValidationErrors(){
       this.validationErrors=null
     },
     clearAuth(){

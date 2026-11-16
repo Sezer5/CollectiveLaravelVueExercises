@@ -1,5 +1,5 @@
 <template>
-  <div>Home</div>
+  <div class="card w-100"></div>
 </template>
 
 <script setup>

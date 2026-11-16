@@ -41,7 +41,7 @@ class UserController extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'message' => 'These credentials do not match our records'
+                    'error' => 'These credentials do not match our records'
                 ], 401);
             }
         }

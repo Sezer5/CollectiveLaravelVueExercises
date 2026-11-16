@@ -78,7 +78,6 @@ const changeProfileImage = async () => {
       headersConfig(authStore.access_token, "multipart/form-data")
     );
     authStore.setUser(response.data.user);
-    authStore.setAccessToken(response.data.access_token);
     authStore.setRoles(response.data.user.roles);
     authStore.setIsLoggedIn();
   } catch (error) {

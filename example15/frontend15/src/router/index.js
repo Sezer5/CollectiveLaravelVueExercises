@@ -27,6 +27,22 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('@/components/profile/Profile.vue'),
     },
+    {
+      path: '/gallery',
+      name: 'gallery',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/components/gallery/Gallery.vue'),
+    },
+    {
+      path: '/gallery/create',
+      name: 'gallerycreate',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/components/gallery/GalleryCreate.vue'),
+    },
   ],
 })
 

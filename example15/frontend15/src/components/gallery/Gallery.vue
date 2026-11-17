@@ -44,6 +44,7 @@ import Navbar from "../layouts/Navbar.vue";
 import axios from "axios";
 import { BASE_URL, headersConfig } from "@/helpers/config.js";
 import { onMounted, reactive } from "vue";
+import Spinner from "../layouts/Spinner.vue";
 const authStore = useAuthStore();
 
 const data = reactive({

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AlbumController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Resources\UserResource;
@@ -22,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/gallery', [GalleryController::class, "index"])->name('gallery.index');
     Route::post('/gallery/store', [GalleryController::class, "store"])->name('gallery.store');
     Route::delete('/gallery/{gallery}/destroy', [GalleryController::class, "destroy"])->name('gallery.destroy');
+
+    Route::get('/album', [AlbumController::class, "index"])->name('album.index');
+    Route::post('/album/store', [AlbumController::class, "store"])->name('album.store');
+    Route::delete('/album/{album}/destroy', [AlbumController::class, "destroy"])->name('album.destroy');
 });
 
 Route::post('/user/register', [UserController::class, "register"])->name('user.register');

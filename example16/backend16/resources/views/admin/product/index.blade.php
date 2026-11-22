@@ -15,7 +15,7 @@
                                     <table class="table table-responsive table-bordered">
                                         <thead>
                                             <tr>
-                                                <th colspan="7">
+                                                <th colspan="8">
                                                     <h3>Product</h3>
                                                 </th>
                                                 <th colspan="1">
@@ -27,6 +27,7 @@
                                                 </th>
                                             </tr>
                                             <tr>
+                                                <th>*</th>
                                                 <th>Id</th>
                                                 <th>Slug</th>
                                                 <th>Name</th>
@@ -40,6 +41,7 @@
                                         <tbody>
                                             @foreach ($products as $product)
                                                 <tr>
+                                                    <td><img src="{{ asset($product->thumbnail) }}" width="60"></td>
                                                     <td>{{ $product->id }}</td>
                                                     <td>{{ $product->slug }}</td>
                                                     <td>{{ $product->name }}</td>

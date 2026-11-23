@@ -70,6 +70,8 @@
                                         <div class="mb-3">
                                             <label for="" class="form-label">Category</label>
                                             <select class="form-select form-select-sm" name="category_id" id="category_id">
+                                                <option value="{{ $product->category->id }}">{{ $product->category->name }}
+                                                </option>
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach

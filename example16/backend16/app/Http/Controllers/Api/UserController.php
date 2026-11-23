@@ -28,10 +28,10 @@ class UserController extends Controller
     {
         if ($request->validated()) {
             $user = User::whereEmail($request->email)->first();
-            if (!$user && Hash::check($request->password, $user->password)) {
+            if (!$user || !Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'message' => 'These credentials do not match our records'
-                ]);
+                ], 401);
             } else {
                 return response()->json([
                     'user' => UserResource::make($user->load('roles')),
